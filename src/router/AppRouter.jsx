@@ -8,7 +8,7 @@ import AllProducts from "../pages/AllProducts";
 import NotFound from "../pages/NotFound";
 import Cart from "../pages/Cart";
 import AccessDenied from "../pages/AccessDenied";
-import ProtectedRoute from "../components/protectedRoute";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRouter = () => {
   return (
