@@ -1,16 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useProductStore } from "../store/productStore";
+import { useCartStore } from "../store/cartStore";
+import { useAuthStore } from "../store/authStore";
 import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast"; // ✅
 
 const AllProducts = () => {
+  const toast = useRef(null);
   const { products, loading, error, fetchPublicProducts } = useProductStore();
+  const { addToCart } = useCartStore();
+  const { user } = useAuthStore(); // ✅ check if logged in
 
   useEffect(() => {
     fetchPublicProducts();
   }, []);
 
+  const handleAddToCart = (product) => {
+    if (!user) {
+      // ✅ Show toast if guest
+      toast.current.show({
+        severity: "warn",
+        summary: "Login Required",
+        detail: "Please login or register to add items to your cart.",
+        life: 3000,
+      });
+    } else {
+      addToCart(product);
+
+      toast.current.show({
+        severity: "success",
+        summary: "Added to Cart",
+        detail: `${product.name} has been added to your cart.`,
+        life: 2000,
+      });
+    }
+  };
+
   return (
     <div className="p-4">
+      <Toast ref={toast} />
+
       {loading && (
         <div
           className="flex justify-content-center align-items-center"
@@ -39,9 +69,16 @@ const AllProducts = () => {
                 <Card
                   title={product.name}
                   subTitle={`Price: $${product.price}`}
-                  className="mb-4 shadow-2 border-round"
+                  className="mb-4 shadow-2 border-round h-full flex flex-column justify-between"
                 >
-                  <p className="m-0">{product.description}</p>
+                  <p className="m-0 mb-3">{product.description}</p>
+
+                  <Button
+                    icon="pi pi-shopping-cart"
+                    label="Add to Cart"
+                    className="w-full p-button-sm"
+                    onClick={() => handleAddToCart(product)}
+                  />
                 </Card>
               </div>
             ))}

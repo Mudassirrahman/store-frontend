@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import AdminDashboard from "../pages/AdminDashboard";
 import AllProducts from "../pages/AllProducts";
 import NotFound from "../pages/NotFound";
+import Cart from "../pages/Cart"; 
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/cart" element={<Cart />} /> 
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
