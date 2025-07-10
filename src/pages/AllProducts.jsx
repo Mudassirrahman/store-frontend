@@ -4,7 +4,7 @@ import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-import { Toast } from "primereact/toast"; // ✅
+import { Toast } from "primereact/toast"; 
 
 const AllProducts = () => {
   const toast = useRef(null);
