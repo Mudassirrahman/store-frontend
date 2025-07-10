@@ -102,7 +102,7 @@ const AdminDashboard = () => {
         className="rounded-xl"
       >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <span className="p-float-label w-full">
+          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
             <InputText
               id="name"
               {...register("name", { required: "name is required" })}
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
             <label htmlFor="name">Title</label>
           </span>
 
-          <span className="p-float-label w-full">
+          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
             <InputText
               id="description"
               {...register("description", {
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
             <label htmlFor="description">Description</label>
           </span>
 
-          <span className="p-float-label w-full">
+          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
             <InputText
               id="price"
               {...register("price", { required: "Price is required" })}
