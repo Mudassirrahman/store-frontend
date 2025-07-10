@@ -6,7 +6,9 @@ import Register from "../pages/Register";
 import AdminDashboard from "../pages/AdminDashboard";
 import AllProducts from "../pages/AllProducts";
 import NotFound from "../pages/NotFound";
-import Cart from "../pages/Cart"; 
+import Cart from "../pages/Cart";
+import AccessDenied from "../pages/AccessDenied";
+import ProtectedRoute from "../components/protectedRoute";
 
 const AppRouter = () => {
   return (
@@ -14,8 +16,9 @@ const AppRouter = () => {
       <Route path="/" element={<AllProducts />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/admin" element={<AdminDashboard />} />
-      <Route path="/cart" element={<Cart />} /> 
+      <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>}/>
+      <Route path="/access-denied" element={<AccessDenied />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
