@@ -59,7 +59,7 @@ const AdminDashboard = () => {
   };
 
   const actionTemplate = (rowData) => (
-    <div className="flex gap-2">
+    <div className="flex align-items-center gap-2">
       <Button label="Edit" onClick={() => handleEdit(rowData)} />
       <Button
         label="Delete"
@@ -70,26 +70,28 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4">
       <Card title="Product Management">
-        <Button
-          label="Add Product"
-          icon="pi pi-plus"
-          className="mb-4"
-          onClick={() => {
-            setDialogTitle("Add Product");
-            setEditMode(false);
-            reset();
-            setVisible(true);
-          }}
-        />
+        <div className="mb-3">
+          <Button
+            label="Add Product"
+            icon="pi pi-plus"
+            onClick={() => {
+              setDialogTitle("Add Product");
+              setEditMode(false);
+              reset();
+              setVisible(true);
+            }}
+          />
+        </div>
 
-        <DataTable value={products} paginator rows={5} loading={loading}>
+        <DataTable value={products} paginator rows={5} loading={loading} className="mb-3">
           <Column field="name" header="Name" />
           <Column field="description" header="Description" />
           <Column field="price" header="Price" />
           <Column header="Actions" body={actionTemplate} />
         </DataTable>
+
         {error && <small className="p-error">{error}</small>}
       </Card>
 
@@ -97,41 +99,53 @@ const AdminDashboard = () => {
       <Dialog
         header={dialogTitle}
         visible={visible}
-        style={{ width: "50vw" }}
+        style={{ width: '50vw' }}
         onHide={() => setVisible(false)}
-        className="rounded-xl"
+        breakpoints={{ '960px': '90vw' }}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
-            <InputText
-              id="name"
-              {...register("name", { required: "name is required" })}
-              className={errors.name ? "p-invalid w-full" : "w-full"}
-            />
-            <label htmlFor="name">Title</label>
-          </span>
+        <form onSubmit={handleSubmit(onSubmit)} className="formgrid grid mt-2">
+          <div className="field col-12">
+            <span className="p-float-label mt-5">
+              <InputText
+                id="name"
+                {...register("name", { required: "name is required" })}
+                className={errors.name ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="name">Title</label>
+            </span>
+          </div>
 
-          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
-            <InputText
-              id="description"
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className={errors.description ? "p-invalid w-full" : "w-full"}
-            />
-            <label htmlFor="description">Description</label>
-          </span>
+          <div className="field col-12">
+            <span className="p-float-label mt-3">
+              <InputText
+                id="description"
+                {...register("description", {
+                  required: "Description is required",
+                })}
+                className={errors.description ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="description">Description</label>
+            </span>
+          </div>
 
-          <span className="p-float-label w-full" style={{marginBottom: "1.7rem"}}>
-            <InputText
-              id="price"
-              {...register("price", { required: "Price is required" })}
-              className={errors.price ? "p-invalid w-full" : "w-full"}
-            />
-            <label htmlFor="price">Price</label>
-          </span>
+          <div className="field col-12">
+            <span className="p-float-label mt-3">
+              <InputText
+                id="price"
+                {...register("price", { required: "Price is required" })}
+                className={errors.price ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="price">Price</label>
+            </span>
+          </div>
 
-          <Button type="submit" label={editMode ? "Update" : "Add"} className="w-full" />
+          <div className="col-12 mt-2">
+            <Button
+              type="submit"
+              label={editMode ? "Update" : "Add"}
+              className="w-full"
+            />
+          </div>
         </form>
       </Dialog>
     </div>

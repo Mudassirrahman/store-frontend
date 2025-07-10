@@ -18,7 +18,7 @@ const Register = () => {
     formState: { errors },
     setValue,
     watch,
-    control, // 👈 Added for Controller
+    control,
   } = useForm();
 
   const roleOptions = [
@@ -28,80 +28,89 @@ const Register = () => {
 
   const onSubmit = (data) => {
     registerUser(data, () => navigate("/login"));
-
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <Card title="Register" className="w-full max-w-md shadow-2xl">
-        <form onSubmit={handleSubmit(onSubmit)} className="p-fluid space-y-4 gap-y-6">
+    <div className="flex align-items-center justify-content-center min-h-screen bg-primary-50">
+      <Card title="Register" className="w-full sm:w-20rem md:w-25rem shadow-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="formgrid grid">
 
           {/* Name */}
-          <span className="p-float-label w-full" style={{ marginBottom: "1.5rem" }}>
-            <InputText
-              id="name"
-              {...register("name", { required: "Name is required" })}
-              className={errors.name ? "p-invalid" : ""}
-            />
-            <label htmlFor="name">Name</label>
-          </span>
-          {errors.name && <small className="p-error">{errors.name.message}</small>}
+          <div className="field col-12">
+            <span className="p-float-label w-full mt-3">
+              <InputText
+                id="name"
+                {...register("name", { required: "Name is required" })}
+                className={errors.name ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="name">Name</label>
+            </span>
+            {errors.name && <small className="p-error">{errors.name.message}</small>}
+          </div>
 
           {/* Email */}
-          <span className="p-float-label w-full" style={{ marginBottom: "1.5rem" }}>
-            <InputText
-              id="email"
-              {...register("email", { required: "Email is required" })}
-              className={errors.email ? "p-invalid" : ""}
+          <div className="field col-12">
+            <span className="p-float-label w-full mt-3">
+              <InputText
+                id="email"
+                {...register("email", { required: "Email is required" })}
+                className={errors.email ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="email">Email</label>
+            </span>
+            {errors.email && <small className="p-error">{errors.email.message}</small>}
+          </div>
+
+          {/* Password */}
+          <div className="field col-12">
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: "Password is required" }}
+              render={({ field }) => (
+                <span className="p-float-label w-full mt-3">
+                  <Password
+                    id="password"
+                    toggleMask
+                    feedback={false}
+                    {...field}
+                    className={errors.password ? "p-invalid w-full" : "w-full"}
+                  />
+                  <label htmlFor="password">Password</label>
+                </span>
+              )}
             />
-            <label htmlFor="email">Email</label>
-          </span>
-          {errors.email && <small className="p-error">{errors.email.message}</small>}
+            {errors.password && <small className="p-error">{errors.password.message}</small>}
+          </div>
 
-          {/* Password with Controller Fix */}
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: "Password is required" }}
-            render={({ field }) => (
-              <span className="p-float-label w-full" style={{ marginBottom: "1.5rem" }}>
-                <Password
-                  id="password"
-                  toggleMask
-                  feedback={false}
-                  {...field}
-                  className={errors.password ? "p-invalid" : ""}
-                />
-                <label htmlFor="password">Password</label>
-              </span>
-            )}
-          />
-          {errors.password && <small className="p-error">{errors.password.message}</small>}
+          {/* Role */}
+          <div className="field col-12">
+            <span className="p-float-label w-full mt-3">
+              <Dropdown
+                id="role"
+                options={roleOptions}
+                value={watch("role")}
+                onChange={(e) => setValue("role", e.value)}
+                placeholder="Select Role"
+                className={errors.role ? "p-invalid w-full" : "w-full"}
+              />
+              <label htmlFor="role">Role</label>
+            </span>
+            {errors.role && <small className="p-error">Role is required</small>}
+          </div>
 
-          {/* Role Dropdown */}
-          <span className="p-float-label w-full" style={{ marginBottom: "1.5rem" }}>
-            <Dropdown
-              id="role"
-              options={roleOptions}
-              value={watch("role")}
-              onChange={(e) => setValue("role", e.value)}
-              placeholder="Select Role"
-              className={errors.role ? "p-invalid" : ""}
+          {/* Submit */}
+          <div className="field col-12 mt-2">
+            <Button
+              type="submit"
+              label={loading ? "Registering..." : "Register"}
+              className="w-full"
+              disabled={loading}
             />
-            <label htmlFor="role">Role</label>
-          </span>
-          {errors.role && <small className="p-error">Role is required</small>}
+          </div>
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            label={loading ? "Registering..." : "Register"}
-            className="w-full mt-4"
-            disabled={loading}
-          />
-
-          {/* Error Message */}
-          {error && <small className="p-error">{error}</small>}
+          {/* Error */}
+          {error && <small className="p-error block mt-2">{error}</small>}
         </form>
       </Card>
     </div>
@@ -109,4 +118,3 @@ const Register = () => {
 };
 
 export default Register;
-
