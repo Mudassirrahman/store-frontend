@@ -28,11 +28,11 @@ export const useProductStore = create((set) => ({
     }
   },
 
-   fetchPublicProducts: async () => {
+  fetchPublicProducts: async () => {
     try {
       set({ loading: true });
 
-      const res = await axios.get(`${BASE_URL}/products`); // No headers
+      const res = await axios.get(`${BASE_URL}/products`); 
       set({ products: res.data, loading: false });
     } catch (err) {
       console.error("Public Fetch Error:", err);
@@ -40,12 +40,12 @@ export const useProductStore = create((set) => ({
     }
   },
 
-  addProduct: async (data) => {
+  addProduct: async (formData) => {
     try {
       set({ loading: true });
       const token = useAuthStore.getState().token;
 
-      await axios.post(`${BASE_URL}/products`, data, {
+      await axios.post(`${BASE_URL}/products`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,12 +58,12 @@ export const useProductStore = create((set) => ({
     }
   },
 
-  updateProduct: async (id, data) => {
+  updateProduct: async (id, formData) => {
     try {
       set({ loading: true });
       const token = useAuthStore.getState().token;
 
-      await axios.put(`${BASE_URL}/products/${id}`, data, {
+      await axios.put(`${BASE_URL}/products/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

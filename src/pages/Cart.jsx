@@ -22,11 +22,18 @@ const Cart = () => {
       ) : (
         <div className="grid">
           {cartItems.map((item) => (
-            <div
-              key={item._id}
-              className="col-12 sm:col-6 md:col-4 lg:col-3"
-            >
+            <div key={item._id} className="col-12 sm:col-6 md:col-4 lg:col-3">
               <Card
+                header={
+                  item.imageBase64 ? (
+                    <img
+                      src={`data:image/jpeg;base64,${item.imageBase64}`}
+                      alt={item.name}
+                      className="w-full"
+                      style={{ height: "200px", objectFit: "cover" }}
+                    />
+                  ) : null
+                }
                 title={item.name}
                 subTitle={`$${item.price} x ${item.quantity}`}
                 className="mb-3 shadow-2 border-round"

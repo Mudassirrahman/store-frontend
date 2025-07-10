@@ -7,6 +7,7 @@ import { Column } from "primereact/column";
 import { Card } from "primereact/card";
 import { Dialog } from "primereact/dialog";
 import { useProductStore } from "../store/productStore";
+import { FileUpload } from "primereact/fileupload";
 
 const AdminDashboard = () => {
   const {
@@ -23,6 +24,7 @@ const AdminDashboard = () => {
   const [editId, setEditId] = useState(null);
   const [visible, setVisible] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("Add Product");
+  const [imageFile, setImageFile] = useState(null); // new state for image
 
   const {
     register,
@@ -36,16 +38,38 @@ const AdminDashboard = () => {
     fetchProducts();
   }, []);
 
-  const onSubmit = (data) => {
+  const onUpload = ({ files }) => {
+    const file = files[0];
+    setImageFile(file);
+  };
+
+  const onSubmit = async (data) => {
+    // ✅ In add mode, image is required
+    if (!editMode && !imageFile) {
+      alert("Please upload an image");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", data.price);
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
     if (editMode) {
-      updateProduct(editId, data);
+      await updateProduct(editId, formData);
       setEditMode(false);
       setEditId(null);
     } else {
-      addProduct(data);
+      await addProduct(formData);
     }
+
     reset();
-    setVisible(false); // Close popup after submit
+    setImageFile(null);
+    setVisible(false);
   };
 
   const handleEdit = (product) => {
@@ -80,12 +104,38 @@ const AdminDashboard = () => {
               setDialogTitle("Add Product");
               setEditMode(false);
               reset();
+              setImageFile(null);
               setVisible(true);
             }}
           />
         </div>
 
-        <DataTable value={products} paginator rows={5} loading={loading} className="mb-3">
+        <DataTable
+          value={products}
+          paginator
+          rows={5}
+          loading={loading}
+          className="mb-3"
+        >
+          <Column
+            header="Image"
+            body={(rowData) =>
+              rowData.imageBase64 ? (
+                <img
+                  src={`data:image/jpeg;base64,${rowData.imageBase64}`}
+                  alt={rowData.name}
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    objectFit: "cover",
+                    borderRadius: "5px",
+                  }}
+                />
+              ) : (
+                <span>No Image</span>
+              )
+            }
+          />
           <Column field="name" header="Name" />
           <Column field="description" header="Description" />
           <Column field="price" header="Price" />
@@ -95,13 +145,12 @@ const AdminDashboard = () => {
         {error && <small className="p-error">{error}</small>}
       </Card>
 
-      {/* Dialog Popup for Add/Edit */}
       <Dialog
         header={dialogTitle}
         visible={visible}
-        style={{ width: '50vw' }}
+        style={{ width: "50vw" }}
         onHide={() => setVisible(false)}
-        breakpoints={{ '960px': '90vw' }}
+        breakpoints={{ "960px": "90vw" }}
       >
         <form onSubmit={handleSubmit(onSubmit)} className="formgrid grid mt-2">
           <div className="field col-12">
@@ -112,6 +161,30 @@ const AdminDashboard = () => {
                 className={errors.name ? "p-invalid w-full" : "w-full"}
               />
               <label htmlFor="name">Title</label>
+            </span>
+          </div>
+
+          <div className="field col-12">
+            <span className="p-float-label mt-3">
+              <div className="field col-12">
+                <span className="p-float-label mt-3">
+                  <FileUpload
+                    name="image"
+                    accept="image/*"
+                    mode="basic"
+                    auto
+                    customUpload
+                    uploadHandler={onUpload}
+                    chooseLabel={
+                      editMode ? "Change Image (optional)" : "Upload Image"
+                    }
+                  />
+                </span>
+
+                {!editMode && !imageFile && (
+                  <small className="p-error">Image is required</small>
+                )}
+              </div>
             </span>
           </div>
 
