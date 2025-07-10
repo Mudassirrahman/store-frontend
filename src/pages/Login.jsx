@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
@@ -10,14 +9,12 @@ import { useAuthStore } from "../store/authStore";
 const Login = () => {
   const { loginUser, loading, error } = useAuthStore();
   const navigate = useNavigate();
-
-  const [passwordValue, setPasswordValue] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
 
   const onSubmit = (data) => {
@@ -44,28 +41,41 @@ const Login = () => {
               />
               <label htmlFor="email">Email</label>
             </span>
-            {errors.email && <small className="p-error">{errors.email.message}</small>}
+            {errors.email && (
+              <small className="p-error">{errors.email.message}</small>
+            )}
           </div>
 
           {/* Password */}
-          <div className="field col-12">
+          <div className="field col-12" style={{ position: "relative" }}>
             <span className="p-float-label w-full mt-3">
-              <Password
+              <InputText
                 id="password"
-                toggleMask
-                feedback={false}
-                value={passwordValue}
-                onChange={(e) => {
-                  setPasswordValue(e.target.value);
-                  setValue("password", e.target.value, {
-                    shouldValidate: true,
-                  });
-                }}
+                type={passwordVisible ? "text" : "password"}
+                {...register("password", { required: "Password is required" })}
                 className={errors.password ? "p-invalid w-full" : "w-full"}
               />
               <label htmlFor="password">Password</label>
             </span>
-            {errors.password && <small className="p-error">{errors.password.message}</small>}
+
+            {/* PrimeReact Eye Toggle */}
+            <i
+              className={`pi ${passwordVisible ? "pi-eye-slash" : "pi-eye"}`}
+              style={{
+                position: "absolute",
+                right: "1.2rem",
+                top: "60%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6b7280",
+                fontSize: "1rem",
+              }}
+              onClick={() => setPasswordVisible((prev) => !prev)}
+            ></i>
+
+            {errors.password && (
+              <small className="p-error">{errors.password.message}</small>
+            )}
           </div>
 
           {/* Submit */}

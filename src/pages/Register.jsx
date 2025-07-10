@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,8 @@ import { useAuthStore } from "../store/authStore";
 const Register = () => {
   const { registerUser, loading, error } = useAuthStore();
   const navigate = useNavigate();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const {
     register,
@@ -61,22 +62,36 @@ const Register = () => {
             {errors.email && <small className="p-error">{errors.email.message}</small>}
           </div>
 
-          {/* Password */}
-          <div className="field col-12">
+          {/* Password with toggle eye icon */}
+          <div className="field col-12" style={{ position: "relative" }}>
             <Controller
               name="password"
               control={control}
               rules={{ required: "Password is required" }}
               render={({ field }) => (
                 <span className="p-float-label w-full mt-3">
-                  <Password
+                  <InputText
                     id="password"
-                    toggleMask
-                    feedback={false}
+                    type={passwordVisible ? "text" : "password"}
                     {...field}
                     className={errors.password ? "p-invalid w-full" : "w-full"}
                   />
                   <label htmlFor="password">Password</label>
+
+                  {/* PrimeReact Eye Icon Toggle */}
+                  <i
+                    className={`pi ${passwordVisible ? "pi-eye-slash" : "pi-eye"}`}
+                    style={{
+                      position: "absolute",
+                      right: "1.2rem",
+                      top: "58%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                      color: "#6b7280",
+                      fontSize: "1rem",
+                    }}
+                    onClick={() => setPasswordVisible((prev) => !prev)}
+                  ></i>
                 </span>
               )}
             />
