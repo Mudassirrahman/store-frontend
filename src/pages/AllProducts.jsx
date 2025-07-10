@@ -1,6 +1,6 @@
-// src/pages/AllProducts.jsx
 import React, { useEffect } from "react";
 import { useProductStore } from "../store/productStore";
+import { Card } from "primereact/card";
 
 const AllProducts = () => {
   const { products, loading, error, fetchPublicProducts } = useProductStore();
@@ -10,25 +10,32 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <div className="container mt-4">
-      <h2>All Products</h2>
+    <div className="p-4">
+      {loading && <p className="text-gray-600">Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-danger">{error}</p>}
+      {products.length === 0 && !loading ? (
+        <p className="text-center text-gray-500 text-lg mt-10">
+          No products available right now
+        </p>
+      ) : (
+        <>
+          <h2 className="text-2xl font-semibold mb-6 text-center">All Products</h2>
 
-      <div className="row">
-        {products.map((product) => (
-          <div key={product._id} className="col-md-4 mb-3">
-            <div className="card h-100">
-              <div className="card-body">
-                <h5>{product.name}</h5>
-                <p>{product.description}</p>
-                <p><strong>Price:</strong> ${product.price}</p>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <Card
+                key={product._id}
+                title={product.name}
+                subTitle={`Price: $${product.price}`}
+                className="shadow-md border border-gray-200 rounded-xl"
+              >
+                <p className="m-0 text-gray-700">{product.description}</p>
+              </Card>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 };
