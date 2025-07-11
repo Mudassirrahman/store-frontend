@@ -50,7 +50,6 @@ const Cart = () => {
             </div>
           ))}
 
-          {/* Total Summary Card */}
           <div className="col-12">
             <Card className="shadow-2 border-round">
               <h4>Total Amount: ${totalAmount.toFixed(2)}</h4>

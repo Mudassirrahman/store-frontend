@@ -36,7 +36,6 @@ const Register = () => {
       <Card title="Register" className="w-full sm:w-20rem md:w-25rem shadow-3">
         <form onSubmit={handleSubmit(onSubmit)} className="formgrid grid">
 
-          {/* Name */}
           <div className="field col-12">
             <span className="p-float-label w-full mt-3">
               <InputText
@@ -49,7 +48,6 @@ const Register = () => {
             {errors.name && <small className="p-error">{errors.name.message}</small>}
           </div>
 
-          {/* Email */}
           <div className="field col-12">
             <span className="p-float-label w-full mt-3">
               <InputText
@@ -62,7 +60,6 @@ const Register = () => {
             {errors.email && <small className="p-error">{errors.email.message}</small>}
           </div>
 
-          {/* Password with toggle eye icon */}
           <div className="field col-12" style={{ position: "relative" }}>
             <Controller
               name="password"
@@ -78,7 +75,6 @@ const Register = () => {
                   />
                   <label htmlFor="password">Password</label>
 
-                  {/* PrimeReact Eye Icon Toggle */}
                   <i
                     className={`pi ${passwordVisible ? "pi-eye-slash" : "pi-eye"}`}
                     style={{
@@ -98,7 +94,6 @@ const Register = () => {
             {errors.password && <small className="p-error">{errors.password.message}</small>}
           </div>
 
-          {/* Role */}
           <div className="field col-12">
             <span className="p-float-label w-full mt-3">
               <Dropdown
@@ -114,7 +109,6 @@ const Register = () => {
             {errors.role && <small className="p-error">Role is required</small>}
           </div>
 
-          {/* Submit */}
           <div className="field col-12 mt-2">
             <Button
               type="submit"

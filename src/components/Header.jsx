@@ -53,7 +53,6 @@ const Header = () => {
     },
   ].filter(Boolean);
 
-  // ✅ Cart button render for all users
 
   const end = (
     <div className="relative">
@@ -89,7 +88,7 @@ const Header = () => {
         <Menubar
           model={items}
           className="md:w-auto custom-menubar"
-          end={end} // ✅ Add cart button at the end
+          end={end} 
         />
       </div>
     </div>

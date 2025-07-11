@@ -31,7 +31,7 @@ const Login = () => {
     <div className="flex align-items-center justify-content-center min-h-screen bg-primary-50">
       <Card title="Login" className="w-full sm:w-20rem md:w-25rem shadow-3">
         <form onSubmit={handleSubmit(onSubmit)} className="formgrid grid">
-          {/* Email */}
+        
           <div className="field col-12">
             <span className="p-float-label w-full mt-3">
               <InputText
@@ -46,7 +46,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password */}
           <div className="field col-12" style={{ position: "relative" }}>
             <span className="p-float-label w-full mt-3">
               <InputText
@@ -58,7 +57,6 @@ const Login = () => {
               <label htmlFor="password">Password</label>
             </span>
 
-            {/* PrimeReact Eye Toggle */}
             <i
               className={`pi ${passwordVisible ? "pi-eye-slash" : "pi-eye"}`}
               style={{
@@ -78,7 +76,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Submit */}
           <div className="field col-12 mt-3">
             <Button
               type="submit"

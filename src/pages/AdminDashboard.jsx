@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   const [editId, setEditId] = useState(null);
   const [visible, setVisible] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("Add Product");
-  const [imageFile, setImageFile] = useState(null); // new state for image
+  const [imageFile, setImageFile] = useState(null); 
 
   const {
     register,
@@ -44,7 +44,6 @@ const AdminDashboard = () => {
   };
 
   const onSubmit = async (data) => {
-    // ✅ In add mode, image is required
     if (!editMode && !imageFile) {
       alert("Please upload an image");
       return;

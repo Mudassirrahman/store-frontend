@@ -8,7 +8,6 @@ export const useCartStore = create((set, get) => ({
     const existing = items.find((item) => item._id === product._id);
 
     if (existing) {
-      // Agar pehle se item cart mein hai to quantity barhao
       const updatedCart = items.map((item) =>
         item._id === product._id
           ? { ...item, quantity: item.quantity + 1 }
@@ -16,7 +15,6 @@ export const useCartStore = create((set, get) => ({
       );
       set({ cartItems: updatedCart });
     } else {
-      // Naya product add karo with quantity 1
       set({ cartItems: [...items, { ...product, quantity: 1 }] });
     }
   },

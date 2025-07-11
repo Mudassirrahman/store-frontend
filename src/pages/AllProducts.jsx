@@ -10,7 +10,7 @@ const AllProducts = () => {
   const toast = useRef(null);
   const { products, loading, error, fetchPublicProducts } = useProductStore();
   const { addToCart } = useCartStore();
-  const { user } = useAuthStore(); //  check if logged in
+  const { user } = useAuthStore(); 
 
   useEffect(() => {
     fetchPublicProducts();
@@ -18,7 +18,6 @@ const AllProducts = () => {
 
   const handleAddToCart = (product) => {
     if (!user) {
-      //  Show toast if guest
       toast.current.show({
         severity: "warn",
         summary: "Login Required",
