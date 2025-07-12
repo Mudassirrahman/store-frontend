@@ -9,7 +9,7 @@ import { Badge } from "primereact/badge";
 const Header = () => {
   const navigate = useNavigate();
   const { user, role, logoutUser } = useAuthStore();
-  const { cartItems, resetCart  } = useCartStore();
+  const { cartItems, resetCart } = useCartStore();
   const isLoggedIn = !!user;
 
   const handleLogout = () => {
@@ -53,7 +53,6 @@ const Header = () => {
     },
   ].filter(Boolean);
 
-
   const end = (
     <div className="relative">
       <Button
@@ -79,17 +78,20 @@ const Header = () => {
   );
 
   return (
-    <div className="flex justify-content-between align-items-center px-3 py-2 surface-100 shadow-2">
-      <div className="font-bold text-lg pr-6 white-space-nowrap" onClick={() => navigate("/")}>
+    <div className="fixed-header flex justify-content-between align-items-center px-4 py-2  shadow-2">
+      <div
+        className="font-bold text-lg pr-6 white-space-nowrap px-3 py-2 border-round cursor-pointer"
+        onClick={() => navigate("/")}
+        style={{
+          filter: "drop-shadow(rgba(0, 0, 0, 1.25) 2px 9px 4px)",
+          transition: "box-shadow 0.3s ease-in-out",
+        }}
+      >
         🛒 Store App
       </div>
 
       <div className="md:w-auto flex align-items-center">
-        <Menubar
-          model={items}
-          className="md:w-auto custom-menubar"
-          end={end} 
-        />
+        <Menubar model={items} className="md:w-auto custom-menubar" end={end} />
       </div>
     </div>
   );
